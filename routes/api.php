@@ -5,10 +5,10 @@ use App\Http\Controllers\UserPhoneController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CallTypeController;
+use App\Http\Controllers\CallTypeGroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::get('users/agents', [UserController::class, 'index_agents']);
         Route::get('users/agents/{id}', [UserController::class, 'show_agent']);
         Route::resource('call_types', CallTypeController::class)->only(['index', 'show']);
+        Route::resource('call_type_groups', CallTypeGroupController::class)->only(['index', 'show']);
         Route::get('/feedbacks/{feedback}/inquiry',[FeedbackController::class, 'inquiry']);
         Route::resource('feedbacks', FeedbackController::class)->only(['index', 'show']);;
 
@@ -75,7 +76,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::resource('user_phones', UserPhoneController::class);
         
         // Create/Update/Delete
-        Route::resource('feedbacks', FeedbackController::class)->except(['show']);
+        Route::resource('call_type_groups', CallTypeGroupController::class)->except(['index', 'show']);
+        Route::resource('feedbacks', FeedbackController::class)->except(['index','show']);
         Route::get('call_types/{callType}/inquiries', [CallTypeController::class, 'inquiries']);
         Route::resource('call_types', CallTypeController::class)->except(['index', 'show']);
 
