@@ -5,17 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CallType extends Model
+class CallTypeGroup extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'name',
-        'comment',
-        'call_type_group_id'
+        'comment'
     ];
-
-    function inquiries()
-    {
-        return $this->hasMany(Inquiry::class);
-    }
 }
