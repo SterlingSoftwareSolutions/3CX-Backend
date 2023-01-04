@@ -37,7 +37,7 @@ class CallTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // validation
+            'call_type_group_id' => 'required|exists:call_type_groups,id'
         ]);
 
         return response()->success(
@@ -77,6 +77,10 @@ class CallTypeController extends Controller
      */
     public function update(Request $request, CallType $callType)
     {
+        $request->validate([
+            'call_type_group_id' => 'required|exists:call_type_groups,id'
+        ]);
+        
         $callType->update($request->all());
         return response()->success($callType);
     }
