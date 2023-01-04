@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CallType;
+use App\Models\CallTypeGroup;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as Codes;
 
-class CallTypeController extends Controller
+class CallTypeGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class CallTypeController extends Controller
      */
     public function index()
     {
-        return response()->success(CallType::all());
+        return response()->success(CallTypeGroup::all());
     }
 
     /**
@@ -37,11 +37,13 @@ class CallTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'call_type_group_id' => 'required|exists:call_type_groups,id'
+            'id' => 'required|unique:call_type_groups,id',
+            'name' => 'required|unique:call_type_groups,name',
+            'comment' => 'string'
         ]);
 
         return response()->success(
-            CallType::create($request->all()),
+            CallTypeGroup::create($request->all()),
             Codes::HTTP_CREATED
         );
     }
@@ -49,21 +51,21 @@ class CallTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CallType  $callType
+     * @param  \App\Models\CallTypeGroup  $callTypeGroup
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(CallTypeGroup $callTypeGroup)
     {
-        return response()->success(CallType::find($id));
+        return response()->success($callTypeGroup);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\CallType  $callType
+     * @param  \App\Models\CallTypeGroup  $callTypeGroup
      * @return \Illuminate\Http\Response
      */
-    public function edit(CallType $callType)
+    public function edit(CallTypeGroup $callTypeGroup)
     {
         //
     }
@@ -72,41 +74,28 @@ class CallTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CallType  $callType
+     * @param  \App\Models\CallTypeGroup  $callTypeGroup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CallType $callType)
+    public function update(Request $request, CallTypeGroup $callTypeGroup)
     {
         $request->validate([
-            'call_type_group_id' => 'required|exists:call_type_groups,id'
+            'name' => 'unique:call_type_groups,name',
         ]);
-        
-        $callType->update($request->all());
-        return response()->success($callType);
+
+        $callTypeGroup->update($request->all());
+        return response()->success($callTypeGroup);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  CallType  $callType
+     * @param  \App\Models\CallTypeGroup  $callTypeGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CallType $callType)
+    public function destroy(CallTypeGroup $callTypeGroup)
     {
-        $callType->delete();
-        return response()->success("Call Type Deleted");
-    }
-
-    /**
-     * Get all the inquiries that have this call type
-     *
-     * @param  CallType  $callType
-     * @return \Illuminate\Http\Response
-     */
-    public function inquiries(CallType $callType)
-    {
-        return response()->success(
-            $callType->inquiries
-        );
+        $callTypeGroup->delete();
+        return response()->success("Call Type Group Deleted");
     }
 }
