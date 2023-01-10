@@ -23,7 +23,7 @@ class CreateInquiriesTable extends Migration
             $table->string('action')->nullable();
             $table->string('status_remark')->nullable();
             $table->boolean('open')->nullable();
-            
+
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();

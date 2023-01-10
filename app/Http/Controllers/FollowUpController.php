@@ -57,7 +57,7 @@ class FollowUpController extends Controller
      */
     public function show(FollowUp $followUp)
     {
-        //
+        return response()->success($followUp);
     }
 
     /**
