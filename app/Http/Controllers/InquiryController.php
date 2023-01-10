@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Inquiry;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as Codes;
 
@@ -51,16 +53,30 @@ class InquiryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $inquiry
+     * @param  \App\Models\Inquiry  $inquiry
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Inquiry $inquiry)
     {
-        return response()->success(
-            Inquiry::where('id', $id)
-            ->with('feedback')
-            ->firstOrFail()
-        );
+        return response()->success([
+            'id' => $inquiry->id,
+            'brand' => $inquiry->brand,
+            'brand_availability' => $inquiry->brand_availability,
+            'order_id' => $inquiry->order_id,
+            'inquiry_id_ext' => $inquiry->inquiry_id_ext,
+            'action' => $inquiry->action,
+            'open' => $inquiry->open,
+            'user_id' => $inquiry->user_id,
+            'user_name' => User::find($inquiry->user_id)->name,
+            'customer_id' => $inquiry->customer_id,
+            'customer_name' => Customer::find($inquiry->customer_id)->name,
+            'call_type_id' => $inquiry->call_type_id,
+            'call_type_name' => Customer::find($inquiry->call_type_id)->name,
+            'created_at' => $inquiry->created_at,
+            'updated_at' => $inquiry->updated_at,
+            'feedback' => $inquiry->feedback
+        ]);
+
     }
 
     /**
