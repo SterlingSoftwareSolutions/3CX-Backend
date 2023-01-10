@@ -18,6 +18,8 @@ class CreateInquiriesTable extends Migration
             $table->string('brand')->nullable();
             $table->string('brand_availability')->nullable();
             $table->string('product_category')->nullable();
+            $table->string('order_id')->nullable();
+            $table->string('inquiry_id_ext')->nullable();
             $table->string('action')->nullable();
             $table->string('status_remark')->nullable();
             $table->boolean('open')->nullable();
