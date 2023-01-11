@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Inquiry::factory(100)->create();
         \App\Models\Feedback::factory(90)->create();
         \App\Models\UserPhone::factory(15)->create();
+        \App\Models\FollowUp::factory(30)->create();
     }
 }

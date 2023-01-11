@@ -21,6 +21,8 @@ class InquiryFactory extends Factory
             'brand' => $this->faker->company(),
             'brand_availability' => $availability[random_int(0,1)],
             'product_category' => $this->faker->realText(10),
+            'order_id' => random_int(3333,6666),
+            'inquiry_id_ext' => random_int(3333,6666),
             'action' => $this->faker->realText(10),
             'status_remark' => $this->faker->realText(50),
             'open' => $this->faker->boolean(30)
