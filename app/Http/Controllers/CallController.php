@@ -37,7 +37,6 @@ class CallController extends Controller
      */
     public function store(Request $request)
     {
-    {
         $request->validate([
             'inquiry_id' => 'required|exists:inquiries,id',
             'user_id' => 'required|exists:users,id',
