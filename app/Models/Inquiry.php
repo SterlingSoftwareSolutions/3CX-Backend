@@ -15,8 +15,10 @@ class Inquiry extends Model
         'call_type_id',
         'brand',
         'brand_availability',
-        'action',
         'product_category',
+        'order_id',
+        'inquiry_id_ext',
+        'action',
         'status_remark',
         'open'
     ];

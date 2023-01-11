@@ -8,6 +8,7 @@ use App\Http\Controllers\CallTypeController;
 use App\Http\Controllers\CallTypeGroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::resource('customers', CustomerController::class)->except(['destroy']);
         Route::get('/customer_addresses/{customerAddress}/customer',[CustomerAddressController::class, 'customer']);
         Route::resource('customer_addresses', CustomerAddressController::class)->except(['destroy']);
+        Route::resource('follow_ups', FollowUpController::class)->except(['destroy']);
 
         // Create/Read/Update/Delete
         Route::get('inquiries/count', [InquiryController::class, 'count']);
@@ -67,8 +69,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::group(['middleware' => 'admin'], function() {
 
-        // Admins have access to all agent routes and
-        // the following routes
+        // Admins have access to all agent routes and the following routes
 
         // Create/Read/Update/Delete
         Route::resource('users', UserController::class);
@@ -84,6 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         // Delete Only
         Route::resource('customers', CustomerController::class)->only(['destroy']);
         Route::resource('customer_addresses', CustomerAddressController::class)->only(['destroy']);
+        Route::resource('follow_ups', FollowUpController::class)->only(['destroy']);
 
     });
 
