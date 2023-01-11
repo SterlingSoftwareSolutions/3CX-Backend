@@ -17,7 +17,14 @@ class InquiryController extends Controller
      */
     public function index()
     {
-        return response()->success(Inquiry::all());
+        $inquiries = Inquiry::with([
+            'call_type:id,name',
+            'customer:id,name',
+            'user:id,name',
+            'feedback'
+        ])->get();
+
+        return response()->success($inquiries);
     }
 
     /**
@@ -53,29 +60,19 @@ class InquiryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Inquiry  $inquiry
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Inquiry $inquiry)
+    public function show($id)
     {
-        return response()->success([
-            'id' => $inquiry->id,
-            'brand' => $inquiry->brand,
-            'brand_availability' => $inquiry->brand_availability,
-            'order_id' => $inquiry->order_id,
-            'inquiry_id_ext' => $inquiry->inquiry_id_ext,
-            'action' => $inquiry->action,
-            'open' => $inquiry->open,
-            'user_id' => $inquiry->user_id,
-            'user_name' => User::find($inquiry->user_id)->name,
-            'customer_id' => $inquiry->customer_id,
-            'customer_name' => Customer::find($inquiry->customer_id)->name,
-            'call_type_id' => $inquiry->call_type_id,
-            'call_type_name' => Customer::find($inquiry->call_type_id)->name,
-            'created_at' => $inquiry->created_at,
-            'updated_at' => $inquiry->updated_at,
-            'feedback' => $inquiry->feedback
-        ]);
+        $inquiry_with_relations = Inquiry::with([
+            'call_type:id,name',
+            'customer:id,name',
+            'user:id,name',
+            'feedback'
+        ])->find($id);
+
+        return response()->success([$inquiry_with_relations]);
 
     }
 

@@ -25,9 +25,16 @@ class Inquiry extends Model
 
     public function call_type()
     {
-        return $this->hasOne(CallType::class);
+        return $this->belongsTo(CallType::class);
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
     public function feedback()
     {
         return $this->hasOne(Feedback::class);
