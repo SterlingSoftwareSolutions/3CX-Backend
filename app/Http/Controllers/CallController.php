@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Models\Call;
 use App\Models\Inquiry;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as Codes;
 
-class InquiryController extends Controller
+class CallController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +16,7 @@ class InquiryController extends Controller
      */
     public function index()
     {
-        $inquiries = Inquiry::with([
-            'call_type:id,name',
-            'customer:id,name,phone',
-            'user:id,name',
-            'feedback'
-        ])->get();
-
-        return response()->success($inquiries);
+        return response()->success(Call::all());
     }
 
     /**
@@ -46,13 +38,20 @@ class InquiryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'inquiry_id' => 'required|exists:inquiries,id',
             'user_id' => 'required|exists:users,id',
             'customer_id' => 'required|exists:customers,id',
-            'call_type_id' => 'required|exists:call_types,id'
         ]);
 
         return response()->success(
-            Inquiry::create($request->all()),
+            Call::create([
+                'time' => $request->time,
+                'status_remark' => Inquiry::find($request->inquiry_id)
+                                   ->status_remark,
+                'inquiry_id' => $request->inquiry_id,
+                'user_id' => $request->user_id,
+                'customer_id' => $request->customer_id,
+            ]),
             Codes::HTTP_CREATED
         );
     }
@@ -60,29 +59,21 @@ class InquiryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Call  $call
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Call $call)
     {
-        $inquiry_with_relations = Inquiry::with([
-            'call_type:id,name',
-            'customer:id,name,phone',
-            'user:id,name',
-            'feedback'
-        ])->find($id);
-
-        return response()->success([$inquiry_with_relations]);
-
+        return response()->success($call);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Inquiry  $inquiry
+     * @param  \App\Models\Call  $call
      * @return \Illuminate\Http\Response
      */
-    public function edit(Inquiry $inquiry)
+    public function edit(Call $call)
     {
         //
     }
@@ -91,44 +82,30 @@ class InquiryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Inquiry  $inquiry
+     * @param  \App\Models\Call  $call
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inquiry  $inquiry)
+    public function update(Request $request, Call $call)
     {
         $request->validate([
+            'inquiry_id' => 'exists:inquiries,id',
             'user_id' => 'exists:users,id',
             'customer_id' => 'exists:customers,id',
-            'call_type_id' => 'exists:call_types,id'
         ]);
 
-        $inquiry->update($request->all());
-        return response()->success($inquiry);
+        $call->update($request->all());
+        return response()->success($call);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Models\Call  $call
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inquiry $inquiry)
+    public function destroy(Call $call)
     {
-        $inquiry->delete();
-        return response()->success("Inquiry Deleted");
+        $call->delete();
+        return response()->success("Call Deleted");
     }
-
-    /**
-     * Number of open inquiries
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function count()
-    {
-        return response()->success([
-            'total' => Inquiry::count(),
-            'open' => Inquiry::where('open', true)->count(),
-            'closed' => Inquiry::where('open', false)->count()
-        ]);
-    }
-
 }

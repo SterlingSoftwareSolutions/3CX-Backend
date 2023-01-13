@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Feedback::factory(90)->create();
         \App\Models\UserPhone::factory(15)->create();
         \App\Models\FollowUp::factory(30)->create();
+        \App\Models\Call::factory(75)->create();
     }
 }
