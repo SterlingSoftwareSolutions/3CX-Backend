@@ -19,7 +19,7 @@ class InquiryController extends Controller
     {
         $inquiries = Inquiry::with([
             'call_type:id,name',
-            'customer:id,name',
+            'customer:id,name,phone',
             'user:id,name',
             'feedback'
         ])->get();
