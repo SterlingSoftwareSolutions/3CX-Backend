@@ -17,9 +17,6 @@ jobs:
       - name: Install Vendors
         run: composer install
 
-      - name: Create DB
-        run: php artisan migrate:fresh
-
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
