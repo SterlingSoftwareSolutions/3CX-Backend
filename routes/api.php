@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CallController;
 use App\Http\Controllers\UserPhoneController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAddressController;
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::get('/customer_addresses/{customerAddress}/customer',[CustomerAddressController::class, 'customer']);
         Route::resource('customer_addresses', CustomerAddressController::class)->except(['destroy']);
         Route::resource('follow_ups', FollowUpController::class)->except(['destroy']);
+        Route::resource('calls', CallController::class)->except(['destroy']);
 
         // Create/Read/Update/Delete
         Route::get('inquiries/count', [InquiryController::class, 'count']);
@@ -86,6 +88,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::resource('customers', CustomerController::class)->only(['destroy']);
         Route::resource('customer_addresses', CustomerAddressController::class)->only(['destroy']);
         Route::resource('follow_ups', FollowUpController::class)->only(['destroy']);
+        Route::resource('calls', CallController::class)->only(['destroy']);
 
     });
 

@@ -18,16 +18,22 @@ class Inquiry extends Model
         'product_category',
         'order_id',
         'inquiry_id_ext',
-        'action',
         'status_remark',
         'open'
     ];
 
     public function call_type()
     {
-        return $this->hasOne(CallType::class);
+        return $this->belongsTo(CallType::class);
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
     public function feedback()
     {
         return $this->hasOne(Feedback::class);
