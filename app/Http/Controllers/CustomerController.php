@@ -39,9 +39,9 @@ class CustomerController extends Controller
         $request->validate([
             'phone' => 'required|unique:customers'
         ]);
-
+        $customer = Customer::create($request->all());
         return response()->success(
-            Customer::create($request->all()),
+            $customer,
             Codes::HTTP_CREATED
         );
     }
