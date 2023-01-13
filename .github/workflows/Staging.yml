@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - Staging
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: Clone and rename env file
+        run: cp env .env
+
+      - name: Install Vendors
+        run: composer install
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: 68.178.148.226
+          username: ${{ secrets.ftp_staging_username }}
+          password: ${{ secrets.ftp_staging_password }}
