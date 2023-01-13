@@ -18,7 +18,6 @@ class Inquiry extends Model
         'product_category',
         'order_id',
         'inquiry_id_ext',
-        'action',
         'status_remark',
         'open'
     ];

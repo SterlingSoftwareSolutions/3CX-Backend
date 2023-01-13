@@ -67,7 +67,7 @@ class InquiryController extends Controller
     {
         $inquiry_with_relations = Inquiry::with([
             'call_type:id,name',
-            'customer:id,name',
+            'customer:id,name,phone',
             'user:id,name',
             'feedback'
         ])->find($id);
