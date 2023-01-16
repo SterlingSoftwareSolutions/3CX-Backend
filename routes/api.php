@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::get('users/count', [UserController::class, 'count']);
         Route::get('users/agents', [UserController::class, 'index_agents']);
         Route::get('users/agents/{id}', [UserController::class, 'show_agent']);
+        Route::get('call_types/{callType}/inquiries', [CallTypeController::class, 'inquiries']);
         Route::resource('call_types', CallTypeController::class)->only(['index', 'show']);
         Route::resource('call_type_groups', CallTypeGroupController::class)->only(['index', 'show']);
         Route::get('/feedbacks/{feedback}/inquiry',[FeedbackController::class, 'inquiry']);
@@ -81,7 +82,6 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         // Create/Update/Delete
         Route::resource('call_type_groups', CallTypeGroupController::class)->except(['index', 'show']);
         Route::resource('feedbacks', FeedbackController::class)->except(['index','show']);
-        Route::get('call_types/{callType}/inquiries', [CallTypeController::class, 'inquiries']);
         Route::resource('call_types', CallTypeController::class)->except(['index', 'show']);
 
         // Delete Only

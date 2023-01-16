@@ -78,7 +78,8 @@ class FeedbackController extends Controller
     public function update(Request $request, Feedback  $feedback)
     {
         $request->validate([
-            'inquiry_id' => 'exists:inquiries,id'
+            'inquiry_id' => 'sometimes|required|exists:inquiries,id',
+            'feedback' => 'sometimes|required|string'
         ]);
 
         $feedback->update($request->all());

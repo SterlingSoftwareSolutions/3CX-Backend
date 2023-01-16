@@ -40,6 +40,7 @@ class UserPhoneController extends Controller
             'phone' => 'required|unique:user_phones',
             'user_id' => 'required|exists:users,id'
         ]);
+
         return response()->success(
             UserPhone::create($request->all()),
             Codes::HTTP_CREATED
@@ -78,8 +79,8 @@ class UserPhoneController extends Controller
     public function update(Request $request, UserPhone  $userPhone)
     {
         $request->validate([
-            'phone' => 'unique:user_phones',
-            'user_id' => 'exists:users,id'
+            'phone' => 'sometimes|required|unique:user_phones',
+            'user_id' => 'sometimes|required|exists:users,id'
         ]);
         $userPhone->update($request->all());
         return response()->success($userPhone);
@@ -94,7 +95,7 @@ class UserPhoneController extends Controller
     public function destroy(UserPhone $userPhone)
     {
         $userPhone->delete();
-        return response()->success(null);
+        return response()->success('User Phone Deleted');
     }
 
     /**

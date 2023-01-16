@@ -37,7 +37,7 @@ class FollowUpController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'time' => 'required',
+            'time' => 'required|date',
             'inquiry_id' => 'required|exists:inquiries,id',
             'user_id' => 'required|exists:users,id',
             'customer_id' => 'required|exists:customers,id',
