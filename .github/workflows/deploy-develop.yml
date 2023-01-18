@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - Develop
+name: Deploy Develop on Push
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2
+
+    - name: Use production env
+      run: cp .env.production .env
+    
+    - name: Install vendors
+      run: composer install
+
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: 68.178.148.226
+        username: ${{ secrets.ftp_username_dev }}
+        password: ${{ secrets.ftp_password_dev }}
