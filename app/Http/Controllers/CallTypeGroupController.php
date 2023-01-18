@@ -37,7 +37,7 @@ class CallTypeGroupController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id' => 'required|unique:call_type_groups,id',
+            'id' => 'unique:call_type_groups,id',
             'name' => 'required|unique:call_type_groups,name',
             'comment' => 'string'
         ]);
@@ -80,7 +80,8 @@ class CallTypeGroupController extends Controller
     public function update(Request $request, CallTypeGroup $callTypeGroup)
     {
         $request->validate([
-            'name' => 'unique:call_type_groups,name',
+            'name' => 'sometimes|required|unique:call_type_groups,name',
+            'id' => 'sometimes|required|unique:call_type_groups,id',
         ]);
 
         $callTypeGroup->update($request->all());
