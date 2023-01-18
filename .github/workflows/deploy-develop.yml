@@ -22,10 +22,7 @@ jobs:
         sed -i 's/ACTIONS_DB_PASSWORD/${{ secrets.db_password }}/g' .env
 
     - name: Install vendors
-      run: composer install --no-dev --optimize-autoloader
-
-    - name: Optimize
-      run: php artisan optimize
+      run: composer install --no-dev
 
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.3
