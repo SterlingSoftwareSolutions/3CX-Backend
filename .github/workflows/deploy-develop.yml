@@ -13,6 +13,13 @@ jobs:
 
     - name: Use production env
       run: cp .env.production .env
+
+    - name: Update .env
+      run: |
+        sed -i 's/ACTIONS_URL/dev.crm.sterlingbpo.com.au/g' .env
+        sed -i 's/ACTIONS_DB_NAME/sterling_crm_dev/g' .env
+        sed -i 's/ACTIONS_DB_USER/${{ secrets.db_user }}/g' .env
+        sed -i 's/ACTIONS_DB_PASSWORD/${{ secrets.db_password }}/g' .env
     
     - name: Install vendors
       run: composer install --no-dev --optimize-autoloader
@@ -23,3 +30,4 @@ jobs:
         server: 68.178.148.226
         username: ${{ secrets.ftp_username_dev }}
         password: ${{ secrets.ftp_password_dev }}
+        server-dir: ./backend/
