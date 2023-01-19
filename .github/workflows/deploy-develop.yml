@@ -24,6 +24,9 @@ jobs:
     - name: Install vendors
       run: composer install --no-dev
 
+    - name: Optimize
+      run: php artisan optimize
+
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.3
       with:
