@@ -52,7 +52,7 @@ class UserController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string',
             'role' => 'required|string|in:unassigned,agent,admin'
         ]);
 
@@ -118,7 +118,7 @@ class UserController extends Controller
         $fields = $request->validate([
             'name' => 'string',
             'email' => 'string|unique:users,email',
-            'password' => 'string',
+            'password' => 'sometimes|required|string',
             'role' => 'string|in:unassigned,agent,admin'
         ]);
 

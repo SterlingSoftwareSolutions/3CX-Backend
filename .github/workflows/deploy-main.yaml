@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+name: Deploy Main on Push
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2
+
+    - name: Use production env
+      run: cp .env.production .env
+
+    - name: Update .env
+      run: |
+        sed -i 's/ACTIONS_URL/crm.sterlingbpo.com.au/g' .env
+        sed -i 's/ACTIONS_DB_NAME/sterling_crm/g' .env
+        sed -i 's/ACTIONS_DB_USER/${{ secrets.db_user }}/g' .env
+        sed -i 's/ACTIONS_DB_PASSWORD/${{ secrets.db_password }}/g' .env
+    
+    - name: Install vendors
+      run: composer install --no-dev --optimize-autoloader
+
+    - name: Delete cache
+      run: rm -rf /bootstrap/cache/*
+
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: 68.178.148.226
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        server-dir: ./backend/
