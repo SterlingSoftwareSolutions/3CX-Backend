@@ -18,4 +18,9 @@ class CustomerAddress extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function customer_location()
+    {
+        return $this->belongsTo(CustomerLocation::class);
+    }
 }

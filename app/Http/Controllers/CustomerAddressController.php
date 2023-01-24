@@ -15,7 +15,11 @@ class CustomerAddressController extends Controller
      */
     public function index()
     {
-        return response()->success(CustomerAddress::all());
+        return response()->success(
+                CustomerAddress::with([
+                    'customer_location'
+                ])->get()
+        );
     }
 
     /**
