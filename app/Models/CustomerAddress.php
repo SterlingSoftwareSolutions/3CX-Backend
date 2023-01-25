@@ -11,9 +11,10 @@ class CustomerAddress extends Model
 
     protected $fillable = [
         'customer_id',
-        'address_line_1',
+        'customer_location_id',
+        'address_line_1'
     ];
-    
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
