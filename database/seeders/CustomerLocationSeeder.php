@@ -14,17 +14,8 @@ class CustomerLocationSeeder extends Seeder
      */
     public function run()
     {
-        $file = file("storage/locations.txt", FILE_IGNORE_NEW_LINES);
-        $index = 0;
-        $locations = [];
-
-        foreach($file as $location){
-            $locations[$index] = [
-                'name' => $location
-            ];
-            $index++;
-        }
-
+        $file = file_get_contents('storage/locations.json', 'r');
+        $locations = json_decode($file, true);
         DB::table('customer_locations')->insert($locations);
     }
 }
