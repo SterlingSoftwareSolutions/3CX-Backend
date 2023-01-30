@@ -11,10 +11,19 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('phone')){
+            return Customer::where('phone', $request['phone'])->firstOrFail();
+        }
+
+        if($request->has('email')){
+            return Customer::where('email', $request['email'])->firstOrFail();
+        }
+
         return response()->success(Customer::all());
     }
 
