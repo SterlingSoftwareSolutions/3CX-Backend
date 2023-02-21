@@ -17,14 +17,20 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         if($request->has('phone')){
-            return Customer::where('phone', $request['phone'])->firstOrFail();
+            return Customer::where('phone', $request['phone'])
+            ->with('customer_address')
+            ->firstOrFail();
         }
 
         if($request->has('email')){
-            return Customer::where('email', $request['email'])->firstOrFail();
+            return Customer::where('email', $request['email'])
+            ->with('customer_address')
+            ->firstOrFail();
         }
 
-        return response()->success(Customer::all());
+        return response()->success(
+            Customer::with('customer_address')->get()
+        );
     }
 
     /**
