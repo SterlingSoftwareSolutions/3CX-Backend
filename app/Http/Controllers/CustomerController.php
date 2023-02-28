@@ -96,13 +96,14 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $phone)
     {
-        if($request->has('phone')){
-            $request->validate([
-                'phone' => 'required|unique:customers'
-            ]);
-        }
 
         $customer = Customer::where('phone', $phone)->firstOrFail();
+
+        $request->validate([
+            'phone' => 'sometimes|required|unique:customers,phone,' . $customer->id,
+            'email' => 'sometimes|required|unique:customers,email,' . $customer->id,
+        ]);
+
         $customer->update($request->all());
 
         if($request->phone){
