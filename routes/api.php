@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CallTypeController;
 use App\Http\Controllers\CallTypeGroupController;
+use App\Http\Controllers\CustomerLocationController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FollowUpController;
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::resource('call_types', CallTypeController::class)->only(['index', 'show']);
         Route::resource('call_type_groups', CallTypeGroupController::class)->only(['index', 'show']);
         Route::get('/feedbacks/{feedback}/inquiry',[FeedbackController::class, 'inquiry']);
+        Route::resource('customer_locations', CustomerLocationController::class)->only(['index', 'show']);
         Route::resource('feedbacks', FeedbackController::class)->only(['index', 'show']);;
 
         // Create/Read/Update
@@ -83,6 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         Route::resource('call_type_groups', CallTypeGroupController::class)->except(['index', 'show']);
         Route::resource('feedbacks', FeedbackController::class)->except(['index','show']);
         Route::resource('call_types', CallTypeController::class)->except(['index', 'show']);
+        Route::resource('customer_locations', CustomerLocationController::class)->except(['index', 'show']);
 
         // Delete Only
         Route::resource('customers', CustomerController::class)->only(['destroy']);

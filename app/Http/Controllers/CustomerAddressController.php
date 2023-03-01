@@ -15,7 +15,11 @@ class CustomerAddressController extends Controller
      */
     public function index()
     {
-        return response()->success(CustomerAddress::all());
+        return response()->success(
+                CustomerAddress::with([
+                    'customer_location:id,name'
+                ])->get()
+        );
     }
 
     /**
@@ -37,7 +41,8 @@ class CustomerAddressController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_id' => 'required|exists:customers,id'
+            'customer_id' => 'required|exists:customers,id',
+            'customer_location_id' => 'exists:customer_locations,id'
         ]);
 
         return response()->success(
@@ -49,11 +54,15 @@ class CustomerAddressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CustomerAddress  $customerAddress
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CustomerAddress $customerAddress)
+    public function show($id)
     {
+        $customerAddress = CustomerAddress::with([
+            'customer_location:id,name',
+        ])->find($id);
+
         return response()->success($customerAddress);
     }
 
@@ -78,7 +87,8 @@ class CustomerAddressController extends Controller
     public function update(Request $request, CustomerAddress $customerAddress)
     {
         $request->validate([
-            'customer_id' => 'exists:customers,id'
+            'customer_id' => 'exists:customers,id',
+            'customer_location_id' => 'exists:customer_locations,id'
         ]);
 
         $customerAddress->update($request->all());
