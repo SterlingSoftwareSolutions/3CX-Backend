@@ -11,11 +11,26 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->success(Customer::all());
+        if($request->has('phone')){
+            return Customer::where('phone', $request['phone'])
+            ->with('customer_address')
+            ->firstOrFail();
+        }
+
+        if($request->has('email')){
+            return Customer::where('email', $request['email'])
+            ->with('customer_address')
+            ->firstOrFail();
+        }
+
+        return response()->success(
+            Customer::with('customer_address')->get()
+        );
     }
 
     /**
@@ -81,13 +96,14 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $phone)
     {
-        if($request->has('phone')){
-            $request->validate([
-                'phone' => 'required|unique:customers'
-            ]);
-        }
 
         $customer = Customer::where('phone', $phone)->firstOrFail();
+
+        $request->validate([
+            'phone' => 'sometimes|required|unique:customers,phone,' . $customer->id,
+            'email' => 'sometimes|required|unique:customers,email,' . $customer->id,
+        ]);
+
         $customer->update($request->all());
 
         if($request->phone){
